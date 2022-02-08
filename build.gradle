@@ -1,0 +1,38 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.1.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.bakerhughes.ofs.platform'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+ext['h2.version'] = '1.4.197'
+repositories {
+	mavenCentral()
+}
+bootRun {
+    if (project.hasProperty('args')) {
+		args project.args.split(',')
+    }
+}
+dependencies {
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-starter-activemq'
+
+	implementation group: 'org.apache.ignite', name:'ignite-core', version: "${igniteVersion}"
+	implementation group: 'org.apache.ignite', name:'ignite-indexing', version: "${igniteVersion}"
+	implementation group: 'org.apache.ignite', name:'ignite-slf4j', version: "${igniteVersion}"
+	implementation group: 'org.springframework.boot', name:'spring-boot-starter-activemq'
+	implementation group: 'org.apache.activemq', name:'activemq-client', version: "${activeMQVersion}"
+	//implementation group: 'com.fasterxml.jackson.core', name:'jackson-core', version: '2.10.1'
+	
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	
+}
+
+test {
+	useJUnitPlatform()
+}
